@@ -60,16 +60,19 @@ endfunction
 
 
 " Misc.  "{{{1
+let s:V = vital#of('outputz')
+
 function! s:send(n)  "{{{2
   if !exists('g:outputz_secret_key')
     echoerr 'g:outputz_secret_key is not defined'
     return
   endif
 
-  silent! execute printf('!curl --form-string key=%s --form-string uri=%s --form-string "size=%d" http://outputz.com/api/post',
+  let l:cmd = printf('curl --form-string key=%s --form-string uri=%s --form-string "size=%d" http://outputz.com/api/post',
   \ fnameescape(g:outputz_secret_key),
   \ fnameescape({g:outputz_uri_function}()),
   \ a:n)
+  call s:V.system(cmd)
 endfunction
 
 
