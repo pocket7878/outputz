@@ -1,6 +1,6 @@
 " outputz - outputz interface for Vim
-" Version: 0.0.1
-" Copyright (C) 2008 kana <http://whileimautomaton.net/>
+" Version: 0.0.2
+" Copyright (C) 2011 pocket7878 <pocket7878@gmail.com>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -72,7 +72,11 @@ function! s:send(n)  "{{{2
   \ fnameescape(g:outputz_secret_key),
   \ fnameescape({g:outputz_uri_function}()),
   \ a:n)
-  call s:V.system(cmd)
+  if s:V.has_vimproc()
+          call vimproc#system_bg(cmd)
+  else
+          call system(cmd)
+  endif
 endfunction
 
 
